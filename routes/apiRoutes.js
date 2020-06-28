@@ -1,27 +1,45 @@
-// var db = require("../models");
+const router = require("express").Router();
+const Workout = require("../models/workout.js");
 
-module.exports = function(app) {
-  app.get("/api/workouts", function(req, res) {
-    db.Image.find({}).then(function(dbImages) {
-      res.json(dbImages);
+router.get("/api/workouts", (req, res) => {
+  Workout.find({})
+    .sort({ date: -1 })
+    .then(dbTransaction => {
+      res.json(dbTransaction);
+    })
+    .catch(err => {
+      res.status(400).json(err);
     });
-  });
+});
 
-  app.put("/api/workouts", function(req, res) {
-    db.Image.updateOne({ _id: req.params.id }, { rating: req.body.rating }).then(function(dbImage) {
-      res.json(dbImage);
+router.put("/api/workouts", ({ body }, res) => {
+  Workout.create(body)
+    .then(dbTransaction => {
+      res.json(dbTransaction);
+    })
+    .catch(err => {
+      res.status(400).json(err);
     });
-  });
+});
 
-  app.post("/api/workouts/:id", function(req, res) {
-    db.Image.updateOne({ _id: req.params.id }, { rating: req.body.rating }).then(function(dbImage) {
-      res.json(dbImage);
+router.post("/api/workouts/:id", ({ body }, res) => {
+  Workout.insertMany(body)
+    .then(dbTransaction => {
+      res.json(dbTransaction);
+    })
+    .catch(err => {
+      res.status(400).json(err);
     });
-  });
+});
 
-  app.get("/api/workouts/range", function(req, res) {
-    db.Image.updateOne({ _id: req.params.id }, { rating: req.body.rating }).then(function(dbImage) {
-      res.json(dbImage);
+router.get("/api/workouts/range", ({ body }, res) => {
+  Workout.insertMany(body)
+    .then(dbTransaction => {
+      res.json(dbTransaction);
+    })
+    .catch(err => {
+      res.status(400).json(err);
     });
-  });
-};
+});
+
+module.exports = router;
