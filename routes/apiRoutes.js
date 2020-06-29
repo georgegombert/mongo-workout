@@ -49,8 +49,10 @@ router.post("/api/workouts/:id", ({ body }, res) => {
 router.put("/api/workouts/:id", ({ body, params }, res) => {
   const id = params.id
   console.log("PUT /api/workouts/:id");
+  console.log(body.duration);
   Workout.update()
   .then(() => Workout.findOneAndUpdate({_id: id}, { $push: { exercises: body } }, { new: true }))
+  .then(() => Workout.findOneAndUpdate({_id: id}, { totalDuration: {$sum: "$duration"}  }, { new: false }))
   .then(dbUser => {
     res.json(dbUser);
   })

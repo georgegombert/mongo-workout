@@ -27,6 +27,10 @@ const exerciseSchema = new Schema({
 });
 
 const workoutSchema = new Schema({
+  totalDuration: {
+    type: Number,
+    default: 0
+  },
   day: {
     type: Date,
     default: Date.now
